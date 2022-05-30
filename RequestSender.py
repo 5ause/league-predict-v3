@@ -29,14 +29,7 @@ def send_request(url: str, variables=dict(), headers=dict(), method="GET") -> re
 
 
 def process_url(url, variables):
-    if "<API_KEY>" in url:
-        key = get_api_key()
-        url = url.replace("<API_KEY>", key)
     for key in variables:
         url = url.replace("<" + key + ">", variables[key])
     return url
 
-
-def get_api_key():
-    load_dotenv()
-    return os.getenv('APIKEY')
