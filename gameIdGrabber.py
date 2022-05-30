@@ -46,15 +46,16 @@ def get_match_v5(matchid):
     return game_json
 
 
-def grab_puuids(game_json):
-    return game_json["metadata"]["participants"]
-
-
+# use this with match_v5
 def grab_participant_infos(game_json):
     ret_lst = []
     for participant in game_json["info"]["participants"]:
         ret_lst.append([participant["summonerName"], participant["championName"], participant["teamId"]])
     return ret_lst
+
+
+def grab_puuids(game_json):
+    return game_json["metadata"]["participants"]
 
 
 def grab_participant_past_game(puuid) -> List[str]:
