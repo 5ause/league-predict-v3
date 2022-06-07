@@ -7,7 +7,7 @@ import pandas as pd
 
 import RequestSender
 
-KEY = "RGAPI-25a51237-2c61-4367-b99e-60f2531f7cae"
+KEY = "RGAPI-e5e96b47-caf9-4854-ae2b-b18163955484"
 IDS_FILE = "data/gameids.csv"
 INFO_FILE = "data/gameinfo.csv"
 
@@ -49,9 +49,21 @@ def get_match_v5(matchid):
 # use this with match_v5
 def grab_participant_infos(game_json):
     ret_lst = []
+    winning_team = get_winning_team(game_json["info"])
     for participant in game_json["info"]["participants"]:
         ret_lst.append([participant["summonerName"], participant["championName"], participant["teamId"]])
-    return ret_lst
+    return [winning_team] + ret_lst
+
+
+def get_winning_team(game_json):
+    team_id = int(game_json["teams"][0]["teamId"])
+    team_win = bool(game_json["teams"][0]["win"])
+    if team_id == 100 and not team_win:
+        return 200
+    elif team_id == 200 and not team_win:
+        return 100
+    else:
+        return team_id
 
 
 def grab_puuids(game_json):
